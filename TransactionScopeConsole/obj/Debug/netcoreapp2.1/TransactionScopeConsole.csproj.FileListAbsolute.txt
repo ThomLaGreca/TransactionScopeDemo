@@ -1,0 +1,11 @@
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\obj\Debug\netcoreapp2.1\TransactionScopeConsole.csprojAssemblyReference.cache
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\obj\Debug\netcoreapp2.1\TransactionScopeConsole.csproj.CoreCompileInputs.cache
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\obj\Debug\netcoreapp2.1\TransactionScopeConsole.AssemblyInfoInputs.cache
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\obj\Debug\netcoreapp2.1\TransactionScopeConsole.AssemblyInfo.cs
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\bin\Debug\netcoreapp2.1\TransactionScopeConsole.deps.json
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\bin\Debug\netcoreapp2.1\TransactionScopeConsole.runtimeconfig.json
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\bin\Debug\netcoreapp2.1\TransactionScopeConsole.runtimeconfig.dev.json
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\bin\Debug\netcoreapp2.1\TransactionScopeConsole.dll
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\bin\Debug\netcoreapp2.1\TransactionScopeConsole.pdb
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\obj\Debug\netcoreapp2.1\TransactionScopeConsole.dll
+C:\Projects\TransactionScopeDemo\TransactionScopeConsole\obj\Debug\netcoreapp2.1\TransactionScopeConsole.pdb
