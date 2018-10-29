@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dapper;
+using System;
+using System.Data.SqlClient;
 using System.Transactions;
 using TransactionScopeConsole.Model;
 
@@ -6,6 +8,8 @@ namespace TransactionScopeConsole
 {
   public class TransactionScopeDemo
   {
+    public readonly string connString = "Server=localhost;Database=TransactionScopeDemo;Trusted_Connection=True;Integrated Security=True;"
+
     public void Run()
     {
       string input = string.Empty;
@@ -53,20 +57,20 @@ namespace TransactionScopeConsole
 
     private void AddSingleDp()
     {
-
+      var query = @" INSERT INTO Delivery (SiteId, DeliveryDate, Content) VALUES (@siteId, @DeliveryDate, @content)";
 
       var delivery = new Delivery()
       {
-        SiteId = 1,
+        SiteId = 9,
         DeliveryDate = DateTime.Now,
         Content = "Some Product"
       };
 
       using (var scope = new TransactionScope())
       {
-        using (var context = new ApplicationDbContext())
+        using (var conn = new SqlConnection(connString))
         {
-         
+          conn.Execute(query, new { SiteId = 9, DeliveryDate = DateTime.Now, Content = "Some Product" });
         }
       }
 
