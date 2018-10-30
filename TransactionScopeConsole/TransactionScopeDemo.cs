@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data.SqlClient;
 using System.Transactions;
@@ -36,11 +37,62 @@ namespace TransactionScopeConsole
           case "4":
             AddRelatedMulti();
             break;
+          case "5":
+            AddSingleConnectionMulti(string.Empty);
+            break;
+          case "6":
+            AddSingleConnectionMulti("FAIL-A");
+            break;
           default:
             break;
         }
       }
 
+    }
+
+    private void AddSingleConnectionMulti(string failType)
+    {
+      var query = @"INSERT INTO Delivery (SiteId, DeliveryDate, Content) VALUES (@SiteId, @DeliveryDate, @Content)";
+
+      var site = new Site()
+      {
+        Address = "EF Site RelatedMulti"
+      };
+
+      try
+      {
+        using (var scope = new TransactionScope())
+        {
+          using (var context = new ApplicationDbContext())
+          {
+            context.Sites.Add(site);
+            context.SaveChanges();
+            Console.WriteLine("Added EF site.");
+
+            var conn = context.Database.GetDbConnection();
+            conn.Execute(query, new { site.SiteId, DeliveryDate = DateTime.Now, Content = "Some Product DP" });
+
+            Console.WriteLine($"Added Dapper Delivery using SiteId: {site.SiteId}");
+
+            if (failType == "FAIL-A")
+            {
+              // Fail due to explicitly set DeliverId PK.
+              context.Sites.Add(new Site() { SiteId = 9999, Address = "FAILING Address" });
+              context.SaveChanges();
+            }
+          }
+
+          scope.Complete();
+          Console.WriteLine("Scope Completed Successfully.");
+        }
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.InnerException);
+      }
+
+      PrintMenu();
     }
 
     private void AddRelatedMulti()
@@ -61,12 +113,13 @@ namespace TransactionScopeConsole
           {
             context.Sites.Add(site);
             context.SaveChanges();
+
             Console.WriteLine("Added EF site.");
           }
 
           using (var conn = new SqlConnection(connString))
           {
-            conn.Execute(query, new { site.SiteId, DeliveryDate = DateTime.Now, Content = "Some Product DP"});
+            conn.Execute(query, new { site.SiteId, DeliveryDate = DateTime.Now, Content = "Some Product DP" });
             Console.WriteLine($"Added Dapper Delivery using SiteId: {site.SiteId}");
           }
 
@@ -92,6 +145,8 @@ namespace TransactionScopeConsole
       Console.WriteLine("[2] - Adds a single object using Dapper.");
       Console.WriteLine("[3] - Adds two objects. A Site using Execute (Dapper) and one using context.Sites.Add() (EF);");
       Console.WriteLine("[4] - Adds two related objects. A Site using context.Sites.Add() and a Delivery using Execute and the Site Id of the EF site.");
+      Console.WriteLine("[5] - Adds two objects in a single connection.");
+      Console.WriteLine("[6] - Attempts to add objects but fails on the second reverting all changes.");
       Console.WriteLine(Environment.NewLine);
       Console.WriteLine("-- -- --   -- -- -- ");
       Console.WriteLine(Environment.NewLine);

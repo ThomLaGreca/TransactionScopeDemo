@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using TransactionScopeConsole.Mapping;
 using TransactionScopeConsole.Model;
@@ -11,6 +12,8 @@ namespace TransactionScopeConsole
   {
     public DbSet<Delivery> Deliveries { get; set; }
     public DbSet<Site> Sites { get; set; }
+
+  
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
