@@ -71,7 +71,6 @@ namespace TransactionScopeConsole
 
             var conn = context.Database.GetDbConnection();
             conn.Execute(query, new { site.SiteId, DeliveryDate = DateTime.Now, Content = "Some Product DP" });
-
             Console.WriteLine($"Added Dapper Delivery using SiteId: {site.SiteId}");
 
             if (failType == "FAIL-A")
